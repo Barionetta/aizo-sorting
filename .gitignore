@@ -1,0 +1,9 @@
+# Build folders
+build/
+build-mingw/
+.vscode/
+
+# Executables
+*.exe
+*.out
+*.app
