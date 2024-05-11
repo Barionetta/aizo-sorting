@@ -6,9 +6,9 @@
 #include "utils/array.h"
 
 // Funkcja do partycjonowania
-template <typename T> void partition(Array<T>& array, int first, int last);
+template <typename T> int partition(Array<T>& array, int left, int rigth);
 // Rekurencyjny Quick Sort
-template <typename T> void reqQuickSort(Array<T>& array, int first, int last);
+template <typename T> void recQuickSort(Array<T>& array, int left, int rigth);
 // Funkcja do sortowania szybkiego
 template <typename T> void quicksort(Array<T>& array);
 

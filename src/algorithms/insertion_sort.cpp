@@ -18,7 +18,7 @@ void insertionSort(Array<T>& array)
 {
     int i, j;
     T key;
-    for (i = 1; i < array.getLenght(); i++)
+    for (i = 1; i < array.getLength(); i++)
     {
         if (array[i] < array[i - 1])
         {

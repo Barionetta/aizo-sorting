@@ -3,6 +3,7 @@
  */
 #include "quick_sort.h"
 #include "utils/array.h"
+#include <algorithm>
 #include <iostream>
 using namespace std;
 
@@ -10,11 +11,11 @@ using namespace std;
  * Funkcja do sortowania szybkiego
  * 
  * @param array Tablica, którą należy posortować [Array<T>]
- * @param first Indeks skrajnie lewego elementu [int]
- * @param last Indeks skrajnie prawego elementu [int]
+ * @param left Indeks skrajnie lewego elementu [int]
+ * @param rigth Indeks skrajnie prawego elementu [int]
 */
 template <typename T>
-void partition(Array<T>& array, int first, int last)
+int partition(Array<T>& array, int left, int rigth)
 {
 
 }
@@ -23,11 +24,11 @@ void partition(Array<T>& array, int first, int last)
  * Funkcja do sortowania szybkiego
  * 
  * @param array Tablica, którą należy posortować [Array<T>]
- * @param first Indeks skrajnie lewego elementu [int]
- * @param last Indeks skrajnie prawego elementu [int]
+ * @param left Indeks skrajnie lewego elementu [int]
+ * @param right Indeks skrajnie prawego elementu [int]
 */
 template <typename T>
-void reqQuickSort(Array<T>& array, int first, int last)
+void recQuickSort(Array<T>& array, int left, int rigth)
 {
 
 }
@@ -46,9 +47,9 @@ void quicksort(Array<T>& array)
 /*
 *   Zdefiniowanie typów dla funkcji
 */
-template void partition(Array<int>& array, int first, int last);
-template void partition(Array<float>& array, int first, int last);
-template void reqQuickSort(Array<int>& array, int first, int last);
-template void reqQuickSort(Array<float>& array, int first, int last);
+template int partition(Array<int>& array, int left, int rigth);
+template int partition(Array<float>& array, int left, int rigth);
+template void recQuickSort(Array<int>& array, int left, int rigth);
+template void recQuickSort(Array<float>& array, int left, int rigth);
 template void quicksort(Array<int>& array);
 template void quicksort(Array<float>& array);

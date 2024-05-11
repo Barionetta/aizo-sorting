@@ -3,25 +3,10 @@
  */
 #include "heap_sort.h"
 #include "utils/array.h"
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 using namespace std;
-
-/**
- * Funkcja zwracająca indeks lewego dziecka
- *
- * @param idx Indeks elementu, którego dziecko jest poszukiwane [int]
- * @return Indeks lewego dziecka [int]
- */
-int getLeftChild(int idx) { return (2 * idx) + 1; }
-
-/**
- * Funkcja zwracająca indeks prawego dziecka
- *
- * @param idx Indeks elementu, którego dziecko jest poszukiwane [int]
- * @return Indeks prawego dziecka [int]
- */
-int getRightChild(int idx) { return (2 * idx) + 2; }
 
 /**
  * Funkcja przeprowadzająca algorytm kopcowania.
@@ -30,32 +15,31 @@ int getRightChild(int idx) { return (2 * idx) + 2; }
  * Strona 165
  *
  * @param array Tablica, na której przeprowadzany jest algorytm [Array<T>]
- * @param idx Indeks elementu, od którego robi się kopcowanie [int]
+ * @param root Indeks korzenia poddrzewa, które się kopcuje [int]
  * @param size Rozmiar kopca [int]
 */
 template <typename T>
-void maxHeapify(Array<T>& array, int idx, int size)
+void maxHeapify(Array<T>& array, int root, int size)
 {
-    int largest = idx;
-    int leftChild = getLeftChild(idx);
-    int rightChild = getRightChild(idx);
-    if (leftChild <= size && array[leftChild] > array[idx])
+    int largest;
+    T temp = array[root];
+    largest = 2 * root + 1;
+
+    while (largest <= size)
     {
-        largest = leftChild;
+        if(largest < size)
+        {
+            if (array[largest] < array[largest + 1]) { largest++; }
+        }
+        if(temp > array[largest]) { break; }
+        else
+        {
+            array[root] = array[largest];
+            root = largest;
+            largest = 2 * root + 1;
+        }
     }
-    if (rightChild <= size && array[rightChild] > array[largest])
-    {
-        largest = rightChild;
-    }
-    if (largest != idx)
-    {
-        // Zamiana
-        T temp = move(array[idx]);
-        array[idx] = move(array[largest]);
-        array[largest] = move(temp);
-        //
-        maxHeapify(array, largest, size);
-    }
+    array[root] = temp;
 }
 
 /**
@@ -66,10 +50,9 @@ void maxHeapify(Array<T>& array, int idx, int size)
 template <typename T>
 void buildMaxHeap(Array<T>& array)
 {
-    int n = array.getLenght();
-    for (int i = n / 2 - 1; i >= 0; i--)
+    for (int i = array.getLength() / 2 - 1; i >= 0; i--)
     {
-        maxHeapify(array, i-1, n);
+        maxHeapify(array, i, array.getLength() - 1);
     }
 }
 
@@ -81,24 +64,20 @@ void buildMaxHeap(Array<T>& array)
 template <typename T>
 void heapsort(Array<T>& array)
 {
+    T temp;
     buildMaxHeap(array);
-    int n = array.getLenght();
-    for (int i = n - 1; i > 0; i--)
+    for ( int i = array.getLength() - 1; i >= 0; i--)
     {
-        // Zamiana
-        T temp = move(array[0]);
-        array[0] = move(array[i]);
-        array[i] = move(temp);
-        //
-        maxHeapify(array, 0, i);
+        swap(array[i], array[0]);
+        maxHeapify(array, 0, i - 1);
     }
 }
 
 /*
 *   Zdefiniowanie typów dla funkcji
 */
-template void maxHeapify(Array<int>& array, int idx, int size);
-template void maxHeapify(Array<float>& array, int idx, int size);
+template void maxHeapify(Array<int>& array, int root, int size);
+template void maxHeapify(Array<float>& array, int root, int size);
 template void buildMaxHeap(Array<int>& array);
 template void buildMaxHeap(Array<float>& array);
 template void heapsort(Array<int>& array);

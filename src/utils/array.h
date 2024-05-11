@@ -22,7 +22,7 @@ public:
     // Konstruktor klasy Array
     Array();
     // Funkcja zwracająca długość tablicy
-    int getLenght();
+    int getLength();
     // Funkcja wyświetlająca zawartość tablicy
     void print();
     // Funkcja znajdująca indeks elementu o zadanej wartości

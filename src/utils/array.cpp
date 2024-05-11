@@ -27,7 +27,7 @@ Array<T>::Array()
  * @return this->size : Rozmiar tablicy [int]
 */
 template <typename T>
-int Array<T>::getLenght()
+int Array<T>::getLength()
 {
     return this->size;
 }

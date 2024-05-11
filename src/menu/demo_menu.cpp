@@ -5,6 +5,7 @@
 #include "utils/array.h"
 #include "algorithms/insertion_sort.h"
 #include "algorithms/heap_sort.h"
+#include "algorithms/shell_sort.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -63,8 +64,8 @@ void displayAlgorithmsOptions()
 void displayDistanceOptions()
 {
     cout << "Jakie odstępy mają być między zbiorami?\n";
-    cout << "1 - Wzór 1\n";
-    cout << "2 - Wzór 2\n";
+    cout << "1 - Ze wzoru oryginalnego (N/2, N/4, ..., 1)\n";
+    cout << "2 - Ze wzoru Knutha (1, 4, 13, ..., (3^k - 1) / 2)\n";
     cout << "0 - Cofnij\n";
 }
 
@@ -229,12 +230,16 @@ void demo()
                                     {
                                         case 1:
                                         {
-                                            cout << "Przeprowadzam algorytm Shella z wzorem 1\n";
+                                            cout << "Przeprowadzam algorytm Shella z wzorem oryginalnym\n";
+                                            if (intArray.isEmpty()) { shellsort(floatArray); }
+                                            else { shellsort(intArray); }
                                             break;
                                         }
                                         case 2:
                                         {
-                                            cout << "Przeprowadzam algorytm Shella z wzorem 2\n";
+                                            cout << "Przeprowadzam algorytm Shella z wzorem Knutha\n";
+                                            if (intArray.isEmpty()) { shellsortKnuth(floatArray); }
+                                            else { shellsortKnuth(intArray); }
                                             break;
                                         }
                                         default:
