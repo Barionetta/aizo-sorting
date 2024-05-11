@@ -7,6 +7,7 @@
  */
 #ifndef ARRAY_H
 #define ARRAY_H
+#include <string>
 
 template <typename T>
 class Array
@@ -20,8 +21,10 @@ private:
 public:
     // Konstruktor klasy Array
     Array();
+    // Funkcja zwracająca długość tablicy
+    int getLenght();
     // Funkcja wyświetlająca zawartość tablicy
-    void show();
+    void print();
     // Funkcja znajdująca indeks elementu o zadanej wartości
     int find(T value);
     // Funkcja dodająca nowy element do istniejącej tablicy na wybranej pozycji
@@ -32,6 +35,14 @@ public:
     void pop(int idx);
     // Funkcja usuwająca element z końca istniejącej tablicy
     void pop_back();
+    // Funkcja sprawdzająca, czy tablica jest pusta
+    bool isEmpty();
+    // Funkcja zapełniająca tablicę liczbami z pliku tekstowego
+    void readFromFile(std::string& filepath);
+    // Funkcja zapełniająca tablicę liczbami wygenerowanymi losowo
+    void generate(int size);
+    // Operator dostępu
+    T& operator[] (int i);
     // Destruktor klasy Array
     ~Array();
 };

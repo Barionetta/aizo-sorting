@@ -5,6 +5,7 @@
 #include "utils/array.h"
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 /**
@@ -12,6 +13,5 @@ using namespace std;
  */
 void testing()
 {
-    cout << "To jest testowanie. Tworze nowa tablice...\n";
-
+    cout << "Testowańsko...\n";
 }

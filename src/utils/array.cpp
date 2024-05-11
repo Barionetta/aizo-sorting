@@ -6,12 +6,14 @@
  * usuwanie, wyświetlanie i wyszukiwanie jej elementów.
  */
 #include "array.h"
+#include <fstream>
 #include <iostream>
+#include <random>
 using namespace std;
 
 // Konstruktor klasy Array
 template <typename T>
-Array<T>::Array(void)
+Array<T>::Array()
 {
     size = 0;                // Obecny rozmiar tablicy       [int]
     maxSize = 10;            // Maksymalna pojemność tablicy [int]
@@ -20,10 +22,21 @@ Array<T>::Array(void)
 }
 
 /**
+ * Funkcja zwracająca długość tablicy
+ * 
+ * @return this->size : Rozmiar tablicy [int]
+*/
+template <typename T>
+int Array<T>::getLenght()
+{
+    return this->size;
+}
+
+/**
  * Funkcja wyświetlająca zawartość tablicy.
  */
 template <typename T>
-void Array<T>::show()
+void Array<T>::print()
 {
     cout << "Tablica składa się z : ";
     for (int i = 0; i < size; i++)
@@ -59,15 +72,20 @@ int Array<T>::find(T value)
  * Funkcja dodająca nowy element do istniejącej tablicy
  * na wybranej pozycji.
  *
- * @param value Klucz, który jest wstawiany [int]
+ * @param value Klucz, który jest wstawiany [T]
  * @param idx Indeks, na który ma być wstawiony klucz [int]
  */
 template <typename T>
 void Array<T>::push(int idx, T value)
 {
+    if (idx >= size)
+    {
+        cout << "Indeks wyszedł poza zakres tablicy.\n";
+        return;
+    }
     if (size == maxSize)
     {
-        int *new_data = new T[maxSize + 5];
+        T *new_data = new T[maxSize + 5];
 
         for (int i = 0; i < size; i++)
         {
@@ -92,7 +110,7 @@ void Array<T>::push(int idx, T value)
 /**
  * Funkcja dodająca nowy element na koniec istniejącej tablicy
  *
- * @param value Klucz, który jest wstawiany [int]
+ * @param value Klucz, który jest wstawiany [T]
  */
 template <typename T>
 void Array<T>::push_back(T value)
@@ -125,6 +143,11 @@ void Array<T>::pop(int idx)
     if (size == 0)
     {
         cout << "Ale ta tablica jest pusta!\n";
+    }
+    if (idx >= size)
+    {
+        cout << "Indeks wyszedł poza zakres tablicy.\n";
+        return;
     }
     else
     {
@@ -182,10 +205,101 @@ void Array<T>::pop_back()
     }
 }
 
-// Destruktor klasy Array
+/*
+*   Funkcja sprawdzająca, czy tablica jest pusta
+*/
 template <typename T>
-Array<T>::~Array<T>()
+bool Array<T>::isEmpty()
+{
+    if (size > 0) {return false;}
+    else {return true;}
+}
+
+/**
+ * Funkcja zapełniająca tablice liczbami z pliku tekstowego.
+ * Plik tekstowy musi znajdować się w folderze data w tym samym folderze,
+ * co główny plik programu!
+ *
+ * @param filepath Nazwa pliku, z którego wczytywana jest tablica [string]
+ */
+template <typename T>
+void Array<T>::readFromFile(string& filepath)
+{
+    string path = "../data/" + filepath;
+    fstream f;
+    T input;
+    int i = 0;
+    f.open(path);
+    if (f.is_open())
+    {
+        f >> input;
+        cout << "Rozmiar tablicy: " << input << endl;
+        while (f >> input)
+        {
+            this->push_back(input);
+            i++;
+        }
+        f.close();
+    }
+    else
+    {
+        cout << "Nie udało się otworzyć pliku ze ścieżki " << path << " \n";
+    }
+    cout << "Poprawnie wczytano strukturę ze ścieżki " << path << " \n";
+}
+
+/**
+ * Funkcja zapełniająca kopiec liczbami z pliku tekstowego.
+ * Do generowania liczb użyto funkcji pomocniczej generate_random_number()
+ * z pliku simulation/generator.h
+ *
+ * @param size Rozmiar struktury [int]
+ */
+template <typename T>
+void Array<T>::generate(int size)
+{
+    random_device rd;
+    mt19937 gen(rd());
+    if constexpr(is_integral_v<T>)
+    {
+        uniform_int_distribution<> distr(0 ,1000);
+        for (int i = 0; i < size; i++)
+        {
+            this->push_back((int)distr(gen));
+        }
+    }
+    else if constexpr(is_floating_point_v<T>)
+    {
+        uniform_real_distribution<> distr(0 ,1000);
+        for (int i = 0; i < size; i++)
+        {
+            this->push_back((float)distr(gen));
+        }
+    }
+    cout << "Poprawnie wygenerowano tablice\n";
+}
+
+
+/**
+ * Operator dostępu
+*/
+template <typename T>
+T& Array<T>::operator[] (int i)
+{
+    return *(this->data + i);
+}
+
+/*
+*   Destruktor klasy Array
+*/
+template <typename T>
+Array<T>::~Array()
 {
     delete[] data;
-    cout << "Poprawnie usunięto tablicę.\n";
 }
+
+/*
+*   Zdefiniowanie typów dla tablicy
+*/
+template class Array<int>;
+template class Array<float>;

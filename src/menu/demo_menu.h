@@ -3,6 +3,7 @@
  */
 #ifndef DEMO_MENU_H
 #define DEMO_MENU_H
+#include "utils/array.h"
 
 // Funkcja wyświetlająca opcje prezentacji
 void displayDemoOptions();
@@ -16,6 +17,8 @@ void displayAlgorithmsOptions();
 void displayDistanceOptions();
 // Funkcja wyświetlająca opcje wyboru pivota ( Szybkie sortowanie )
 void displayPivotOptions();
+// Funkcja zapełniająca tablice
+template <typename T> void initArray(Array<T>& array, short& genChoice);
 // Główna funkcja do prezentacji algorytmów
 void demo();
 

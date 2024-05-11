@@ -2,7 +2,11 @@
  * Plik źródłowy zawierający funkcje do prezentacji programów
  */
 #include "demo_menu.h"
+#include "utils/array.h"
+#include "algorithms/insertion_sort.h"
+#include "algorithms/heap_sort.h"
 #include <iostream>
+#include <string>
 using namespace std;
 
 
@@ -78,12 +82,39 @@ void displayPivotOptions()
 }
 
 /**
+ * Funkcja zapełniająca tablice
+ * 
+ * @param array Tablica, którą należy wypełnić [Array<T>]
+ * @param genChoice Wybór sposobu zapełniania tablicy [short]
+*/
+template <typename T>
+void initArray(Array<T>& array, short& genChoice)
+{
+    if (genChoice == 1)
+    {
+        cout << "Wybrano wczytanie z pliku.\n";
+        string filepath;
+        cout << "Podaj nazwę pliku, z którego ma być wczytana struktura: ";
+        cin >> filepath;
+        array.readFromFile(filepath);
+    }
+    else
+    {
+        cout << "Wybrano generowanie. Podaj rozmiar tablicy\n";
+        short size;
+        cin >> size;
+        array.generate(size);
+    }
+}
+/**
  * Główna funkcja do prezentacji algorytmów
  */
 void demo()
 {
     cout << "To jest tryb prezentacji.\n";
     short action = 1;
+    Array<int> intArray;
+    Array<float> floatArray;
     bool array = false;
     while(action)
     {
@@ -99,6 +130,11 @@ void demo()
         {
             case 1:
             {
+                if (array)
+                {
+                    cout << "Już masz tablice.\n";
+                    break;
+                }
                 short fromFile = 1;
                 short dataType = 1;
                 displayGenerationOptions();
@@ -117,6 +153,13 @@ void demo()
                     break;
                 }
                 if (!dataType) { break; }
+
+                if (dataType == 1)
+                {
+                    initArray(intArray, fromFile);
+                }
+                else { initArray(floatArray, fromFile); }
+
                 cout << "Tablica została wygenerowana.\n";
                 array = true;
                 break;
@@ -126,6 +169,9 @@ void demo()
                 if (array)
                 {
                     cout << "Wyświetlam sobie tablice.\n";
+                    if (intArray.isEmpty()) { floatArray.print(); }
+                    else { intArray.print(); }
+                    
                 }
                 else
                 {
@@ -154,11 +200,15 @@ void demo()
                             case 1:
                             {
                                 cout << "Przeprowadzam algorytm insertion sort.\n";
+                                if (intArray.isEmpty()) { insertionSort(floatArray); }
+                                else { insertionSort(intArray); }
                                 break;
                             }
                             case 2:
                             {
                                 cout << "Przeprowadzam algorytm heap sort.\n";
+                                if (intArray.isEmpty()) { heapsort(floatArray); }
+                                else { heapsort(intArray); }
                                 break;
                             }
                             case 3:
