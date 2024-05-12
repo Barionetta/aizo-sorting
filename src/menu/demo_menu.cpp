@@ -5,6 +5,7 @@
 #include "utils/array.h"
 #include "algorithms/insertion_sort.h"
 #include "algorithms/heap_sort.h"
+#include "algorithms/quick_sort.h"
 #include "algorithms/shell_sort.h"
 #include <iostream>
 #include <string>
@@ -109,6 +110,7 @@ void initArray(Array<T>& array, short& genChoice)
 }
 /**
  * Główna funkcja do prezentacji algorytmów
+ * aka najbardziej patologiczny switch-ladder jaki zobaczycie
  */
 void demo()
 {
@@ -133,8 +135,8 @@ void demo()
             {
                 if (array)
                 {
-                    cout << "Już masz tablice.\n";
-                    break;
+                    intArray.clear();
+                    floatArray.clear();
                 }
                 short fromFile = 1;
                 short dataType = 1;
@@ -201,15 +203,33 @@ void demo()
                             case 1:
                             {
                                 cout << "Przeprowadzam algorytm insertion sort.\n";
-                                if (intArray.isEmpty()) { insertionSort(floatArray); }
-                                else { insertionSort(intArray); }
+                                if (intArray.isEmpty())
+                                {
+                                    floatArray.print();
+                                    insertionSort(floatArray);
+                                    floatArray.print();
+                                }
+                                else {
+                                    intArray.print();
+                                    insertionSort(intArray);
+                                    intArray.print();
+                                }
                                 break;
                             }
                             case 2:
                             {
                                 cout << "Przeprowadzam algorytm heap sort.\n";
-                                if (intArray.isEmpty()) { heapsort(floatArray); }
-                                else { heapsort(intArray); }
+                                if (intArray.isEmpty())
+                                {
+                                    floatArray.print();
+                                    heapsort(floatArray);
+                                    floatArray.print();
+                                }
+                                else {
+                                    intArray.print();
+                                    heapsort(intArray);
+                                    intArray.print();
+                                }
                                 break;
                             }
                             case 3:
@@ -231,15 +251,33 @@ void demo()
                                         case 1:
                                         {
                                             cout << "Przeprowadzam algorytm Shella z wzorem oryginalnym\n";
-                                            if (intArray.isEmpty()) { shellsort(floatArray); }
-                                            else { shellsort(intArray); }
+                                            if (intArray.isEmpty())
+                                            {
+                                                floatArray.print();
+                                                shellsort(floatArray);
+                                                floatArray.print();
+                                            }
+                                            else {
+                                                intArray.print();
+                                                shellsort(intArray);
+                                                intArray.print();
+                                            }
                                             break;
                                         }
                                         case 2:
                                         {
                                             cout << "Przeprowadzam algorytm Shella z wzorem Knutha\n";
-                                            if (intArray.isEmpty()) { shellsortKnuth(floatArray); }
-                                            else { shellsortKnuth(intArray); }
+                                            if (intArray.isEmpty())
+                                            {
+                                                floatArray.print();
+                                                shellsortKnuth(floatArray);
+                                                floatArray.print();
+                                            }
+                                            else {
+                                                intArray.print();
+                                                shellsortKnuth(intArray);
+                                                intArray.print();
+                                            }
                                             break;
                                         }
                                         default:
@@ -269,21 +307,65 @@ void demo()
                                         case 1:
                                         {
                                             cout << "Quick sort z pivot po lewej.\n";
+                                            if (intArray.isEmpty())
+                                            {
+                                                floatArray.print();
+                                                quicksort(floatArray, 1);
+                                                floatArray.print();
+                                            }
+                                            else {
+                                                intArray.print();
+                                                quicksort(intArray, 1);
+                                                intArray.print();
+                                            }
                                             break;
                                         }
                                         case 2:
                                         {
                                             cout << "Quick sort z pivot po prawej.\n";
+                                            if (intArray.isEmpty())
+                                            {
+                                                floatArray.print();
+                                                quicksort(floatArray, 2);
+                                                floatArray.print();
+                                            }
+                                            else {
+                                                intArray.print();
+                                                quicksort(intArray, 2);
+                                                intArray.print();
+                                            }
                                             break;
                                         }
                                         case 3:
                                         {
                                             cout << "Quick sort z pivot pośrodku.\n";
+                                            if (intArray.isEmpty())
+                                            {
+                                                floatArray.print();
+                                                quicksort(floatArray, 3);
+                                                floatArray.print();
+                                            }
+                                            else {
+                                                intArray.print();
+                                                quicksort(intArray, 3);
+                                                intArray.print();
+                                            }
                                             break;
                                         }
                                         case 4:
                                         {
                                             cout << "Quick sort z pivot losowym.\n";
+                                            if (intArray.isEmpty())
+                                            {
+                                                floatArray.print();
+                                                quicksort(floatArray, 4);
+                                                floatArray.print();
+                                            }
+                                            else {
+                                                intArray.print();
+                                                quicksort(intArray, 4);
+                                                intArray.print();
+                                            }
                                             break;
                                         }
                                         default:

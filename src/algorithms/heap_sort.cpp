@@ -4,7 +4,6 @@
 #include "heap_sort.h"
 #include "utils/array.h"
 #include <algorithm>
-#include <cmath>
 #include <iostream>
 using namespace std;
 

@@ -25,16 +25,8 @@ public:
     int getLength();
     // Funkcja wyświetlająca zawartość tablicy
     void print();
-    // Funkcja znajdująca indeks elementu o zadanej wartości
-    int find(T value);
-    // Funkcja dodająca nowy element do istniejącej tablicy na wybranej pozycji
-    void push(int idx, T value);
     // Funkcja dodająca nowy element na koniec istniejącej tablicy
     void push_back(T value);
-    // Funkcja usuwająca element z istniejącej tablicy z wybranej pozycji
-    void pop(int idx);
-    // Funkcja usuwająca element z końca istniejącej tablicy
-    void pop_back();
     // Funkcja sprawdzająca, czy tablica jest pusta
     bool isEmpty();
     // Funkcja zapełniająca tablicę liczbami z pliku tekstowego
@@ -43,6 +35,8 @@ public:
     void generate(int size);
     // Operator dostępu
     T& operator[] (int i);
+    // Funkcja do czyszczenia tablicy
+    void clear();
     // Destruktor klasy Array
     ~Array();
 };

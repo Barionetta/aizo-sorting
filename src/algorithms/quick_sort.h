@@ -5,11 +5,13 @@
 #define QUICK_SORT_H
 #include "utils/array.h"
 
+// Funkcja pomocnicza do generowania losowej liczby całkowitej
+int generateRandomNumber(int down, int up);
 // Funkcja do partycjonowania
-template <typename T> int partition(Array<T>& array, int left, int rigth);
-// Rekurencyjny Quick Sort
-template <typename T> void recQuickSort(Array<T>& array, int left, int rigth);
+template <typename T> int partition(Array<T>& array, int left, int right, int& pivotType);
 // Funkcja do sortowania szybkiego
-template <typename T> void quicksort(Array<T>& array);
+template <typename T> void recQuicksort(Array<T>& array, int left, int right, int& pivotType);
+// Funkcja do sortowania szybkiego
+template <typename T> void quicksort(Array<T>& array, int pivotType);
 
 #endif
