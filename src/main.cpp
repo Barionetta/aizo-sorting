@@ -6,7 +6,7 @@
 
 int main(int, char **)
 {
-    loop();
+    run();
     std::cout << "Program zakończono.\n";
     return 0;
 }

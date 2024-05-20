@@ -1,53 +1,32 @@
 /**
- * Plik źródłowy zawierający główną pętle symulacji
+ * Plik źródłowy zawierający struktury i funkcje do obsługi menu
  */
-#include "menu.h"
-#include "test_loop.h"
-#include "demo_menu.h"
-#include <iostream>
-using namespace std;
 
-/**
- * Funkcja pomocnicza do wyświetlania dostępnych trybów
- */
-void showModes()
+#include "menu.h"
+#include <iostream>
+
+void Menu::show(MenuEntries menu, std::string header)
 {
-    cout << "Co chcesz wykonać?\n";
-    cout << "1 - Zaprezentuj algorytmy\n";
-    cout << "2 - Przeprowadź badania\n";
-    cout << "0 - Zakończ program\n";
+    std::cout << header;
+    for (auto const& [key, label] : menu)
+    {
+        std::cout << key << ' - ' << label.description << std::endl;
+    }
 }
 
-/**
- * Główna pętla programu
- */
-void loop()
+void Menu::getEntry(MenuEntries menu)
 {
-    cout << "Algorytmy i Złożoność Obliczeniowa Projekt 1 - Algorytmy sortowania\n";
-    short int mode;
-    showModes();
-    cin >> mode;
-    while (mode < 0 || mode > 2)
+    show(menu);
+    unsigned int choice;
+    std::cin >> choice;
+
+    try
     {
-        cout << "Wprowadź poprawną opcję.\n";
-        cin >> mode;
+        Entry entry = menu.at(choice);
+        (entry.function)();
     }
-    switch (mode)
+    catch(std::out_of_range& e)
     {
-    case 1:
-    {
-        demo();
-        break;
+        std::cout << "Niepoprawny wybór\n";
     }
-    case 2:
-    {
-        testing();
-        break;
-    }
-    default:
-    {
-        break;
-    }
-    }
-    return;
 }
