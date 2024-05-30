@@ -1,9 +1,8 @@
 /**
  * Plik źródłowy zawierający implementację algorytmu sortowania przez wstawianie
  */
+
 #include "insertion_sort.h"
-#include "utils/array.h"
-using namespace std;
 
 /**
  * Funkcja do sortowania tablicy przez wstawianie
@@ -14,11 +13,11 @@ using namespace std;
  * @param array Tablica, którą należy posortować [Array<T>]
 */
 template <typename T>
-void insertionSort(Array<T>& array)
+void insertion_sort(Array<T>& array)
 {
     int i, j;
     T key;
-    for (i = 1; i < array.getLength(); i++)
+    for (i = 1; i < array.get_size(); i++)
     {
         if (array[i] < array[i - 1])
         {
@@ -38,5 +37,5 @@ void insertionSort(Array<T>& array)
 /*
 *   Zdefiniowanie typów dla funkcji
 */
-template void insertionSort(Array<int>& array);
-template void insertionSort(Array<float>& array);
+template void insertion_sort(Array<int>& array);
+template void insertion_sort(Array<float>& array);

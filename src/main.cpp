@@ -1,12 +1,13 @@
 /**
  * Plik główny programu
  */
-#include "menu/menu.h"
 #include <iostream>
+#include "menu/app.h"
 
 int main(int, char **)
 {
-    run();
+    App app;
+    app.run();
     std::cout << "Program zakończono.\n";
     return 0;
 }

@@ -6,6 +6,7 @@
 #define MENU_H
 
 #include <functional>
+#include <iostream>
 #include <map>
 #include <string>
 
@@ -22,8 +23,9 @@ namespace Menu
 
     typedef std::map<unsigned int, Entry> MenuEntries;
 
+    // Funkcja wyświetlająca mapę struktur Entry
     void show(MenuEntries menu);
-
+    // Funkcja wykonująca wybraną z MenuEntries funkcję
     void getEntry(MenuEntries menu);
 
 };

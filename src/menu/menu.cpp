@@ -3,17 +3,25 @@
  */
 
 #include "menu.h"
-#include <iostream>
 
-void Menu::show(MenuEntries menu, std::string header)
+/**
+ * Funkcja wyświetlająca mapę struktur Entry
+ * 
+ * @param menu Menu, które jest wyświetlane [MenuEntries]
+*/
+void Menu::show(MenuEntries menu)
 {
-    std::cout << header;
     for (auto const& [key, label] : menu)
     {
-        std::cout << key << ' - ' << label.description << std::endl;
+        std::cout << key << " - " << label.description;
     }
 }
 
+/**
+ * Funkcja wykonująca wybraną z MenuEntries funkcję
+ * 
+ * @param menu Menu, z którego wykonywana jest funkcja [MenuEntries]
+*/
 void Menu::getEntry(MenuEntries menu)
 {
     show(menu);

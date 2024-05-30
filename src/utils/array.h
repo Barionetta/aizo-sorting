@@ -5,40 +5,46 @@
  * Znajdują się w niej podstawowe funkcje umożliwiające dodawanie,
  * usuwanie, wyświetlanie i wyszukiwanie jej elementów.
  */
+
 #ifndef ARRAY_H
 #define ARRAY_H
-#include <string>
+
+#include <algorithm>
+#include <iostream>
+#include <memory>
 
 template <typename T>
 class Array
 {
-
-private:
-    T *data;   // Zawartość tablicy [T*]
-    int maxSize; // Maksymalna pojemność tablicy [int]
-    int size;    // Obecny rozmiar tablicy [int]
-
 public:
-    // Konstruktor klasy Array
+    // Domyślny konstruktor klasy Array
     Array();
-    // Funkcja zwracająca długość tablicy
-    int getLength();
-    // Funkcja wyświetlająca zawartość tablicy
-    void print();
-    // Funkcja dodająca nowy element na koniec istniejącej tablicy
-    void push_back(T value);
-    // Funkcja sprawdzająca, czy tablica jest pusta
-    bool isEmpty();
-    // Funkcja zapełniająca tablicę liczbami z pliku tekstowego
-    void readFromFile(std::string& filepath);
-    // Funkcja zapełniająca tablicę liczbami wygenerowanymi losowo
-    void generate(int size);
+    // Konstruktor kopiujący klasy Array
+    Array(const Array<T>& array);
+    // Konstruktor przenoszenia klasy Array
+    Array(Array<T>&& array);
     // Operator dostępu
     T& operator[] (int i);
-    // Funkcja do czyszczenia tablicy
-    void clear();
+    // Operator kopiowania
+    Array& operator=(const Array& array);
+    // Operator przenoszenia
+    Array& operator=(Array&& array);
     // Destruktor klasy Array
-    ~Array();
+    ~Array() = default;
+
+    // Funkcja zwracająca długość tablicy
+    int get_size() const;
+    // Funkcja wyświetlająca zawartość tablicy
+    void print() const;
+    // Funkcja dodająca nowy element na koniec istniejącej tablicy
+    void push_back(const T& value);
+
+
+private:
+    int size_;                      // Obecny rozmiar tablicy [int]
+    int max_size_;                  // Maksymalna pojemność tablicy [int]
+    std::unique_ptr<T[]> data_;     // Zawartość tablicy [T*]
+
 };
 
 #endif

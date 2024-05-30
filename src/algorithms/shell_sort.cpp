@@ -1,10 +1,8 @@
 /**
  * Plik źródłowy zawierający implementację algorytmu metodą Shella
  */
+
 #include "shell_sort.h"
-#include "utils/array.h"
-#include <iostream>
-using namespace std;
 
 /**
  * Funkcja do sortowania metodą Shella
@@ -14,7 +12,7 @@ using namespace std;
 template <typename T>
 void shellsort(Array<T>& array)
 {
-    int n = array.getLength();
+    int n = array.get_size();
     for (int interval = n / 2; interval > 0; interval /= 2)
     {
         for(int i = interval; i < n; i++)
@@ -36,9 +34,9 @@ void shellsort(Array<T>& array)
  * @param array Tablica, którą należy posortować [Array<T>]
 */
 template <typename T>
-void shellsortKnuth(Array<T>& array)
+void shellsort_knuth(Array<T>& array)
 {
-    int n = array.getLength();
+    int n = array.get_size();
     int init = 0;
     do { init = init * 3 + 1; } while (init < n / 3);
     
@@ -62,5 +60,5 @@ void shellsortKnuth(Array<T>& array)
 */
 template void shellsort(Array<int>& array);
 template void shellsort(Array<float>& array);
-template void shellsortKnuth(Array<int>& array);
-template void shellsortKnuth(Array<float>& array);
+template void shellsort_knuth(Array<int>& array);
+template void shellsort_knuth(Array<float>& array);

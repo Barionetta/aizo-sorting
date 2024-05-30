@@ -5,45 +5,111 @@
  * Znajdują się w niej podstawowe funkcje umożliwiające dodawanie,
  * usuwanie, wyświetlanie i wyszukiwanie jej elementów.
  */
-#include "array.h"
-#include <fstream>
-#include <iostream>
-#include <random>
-using namespace std;
 
-// Konstruktor klasy Array
+#include "array.h"
+
+/**
+ * Domyślny konstruktor klasy Array
+ */
 template <typename T>
 Array<T>::Array()
+    : size_(0),
+      max_size_(10),
+      data_(std::make_unique<T[]>(max_size_))
 {
-    size = 0;                // Obecny rozmiar tablicy       [int]
-    maxSize = 10;            // Maksymalna pojemność tablicy [int]
-    data = new T[maxSize]; // Zawartość tablicy [T*]
-    cout << "Poprawnie utworzono tablicę.\n";
+    std::cout << "Poprawnie utworzono tablicę.\n";
 }
+
+/**
+ * Konstruktor kopiujący klasy Array
+ *
+ * @param array Tablica, która jest kopiowana [Array<T>&]
+ */
+template <typename T>
+Array<T>::Array(const Array<T>& array)
+    : size_(array.size_),
+      max_size_(array.max_size_),
+      data_(std::make_unique<T[]>(array.max_size_))
+{
+    std::copy_n(array.data_.get(), array.size_, data_.get());
+    std::cout << "Poprawnie utworzono kopię tablicy.\n";
+}
+
+/**
+ * Konstruktor przenoszenia klasy Array
+ *
+ * @param array Tablica, która jest przenoszona [Array<T>&&]
+ */
+template <typename T>
+Array<T>::Array(Array<T>&& array)
+    : size_(array.size_),
+      max_size_(array.max_size_),
+      data_(nullptr)
+{
+    *this = array;
+    std::cout << "Poprawnie przeniesiono tablicę.\n";
+}
+
+/**
+ * Operator dostępu
+*/
+template <typename T>
+T& Array<T>::operator[] (int i)
+{
+    return data_.get()[i];
+}
+
+/**
+ * Operator kopiowania
+*/
+template <typename T>
+Array<T>& Array<T>::operator=(const Array& array)
+{
+    if (this == &array) { return *this; }
+
+    data_ = std::make_unique<T[]>(array.max_size_);
+    size_ = array.size_;
+    std::copy_n(array.data_.get(), array.size_, data_.get());
+
+    return *this;
+}
+
+/**
+ * Operator przenoszenia
+*/
+template <typename T>
+Array<T>& Array<T>::operator=(Array&& array)
+{
+    std::swap(data_, array.data_);
+    std::swap(max_size_, array.max_size_);
+    std::swap(size_, array.size_);
+    return *this;
+}
+
 
 /**
  * Funkcja zwracająca długość tablicy
  * 
- * @return this->size : Rozmiar tablicy [int]
+ * @return this->size_ : Rozmiar tablicy [int]
 */
 template <typename T>
-int Array<T>::getLength()
+int Array<T>::get_size() const
 {
-    return this->size;
+    return this->size_;
 }
 
 /**
  * Funkcja wyświetlająca zawartość tablicy.
  */
 template <typename T>
-void Array<T>::print()
+void Array<T>::print() const
 {
-    cout << "Tablica składa się z : ";
-    for (int i = 0; i < size; i++)
+    std::cout << "Tablica składa się z : ";
+    for (int i = 0; i < size_; i++)
     {
-        cout << data[i] << " ";
+        std::cout << data_[i] << " ";
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 /**
@@ -52,132 +118,20 @@ void Array<T>::print()
  * @param value Klucz, który jest wstawiany [T]
  */
 template <typename T>
-void Array<T>::push_back(T value)
+void Array<T>::push_back(const T& value)
 {
-    if (size == maxSize)
+    if (size_ == max_size_)
     {
-        T *new_data = new T[maxSize + 5];
-
-        for (int i = 0; i < size; i++)
-        {
-            new_data[i] = data[i];
-        }
-
-        delete[] data;
-        data = new_data;
-        maxSize += 5;
+        std::unique_ptr<T[]> new_data_ = std::make_unique<T[]>(this->max_size_ + 5);
+        std::copy_n(this->data_.get(), this->size_, new_data_.get());
+        std::swap(data_, new_data_);
+        max_size_ += 5;
     }
-    data[size] = value;
-    size++;
-    cout << "Poprawnie dodano element na końcu tablicy.\n";
+    data_[size_] = value;
+    size_++;
+    std::cout << "Poprawnie dodano element na końcu tablicy.\n";
 }
 
-/*
-*   Funkcja sprawdzająca, czy tablica jest pusta
-*/
-template <typename T>
-bool Array<T>::isEmpty()
-{
-    if (size > 0) {return false;}
-    else {return true;}
-}
-
-/**
- * Funkcja zapełniająca tablice liczbami z pliku tekstowego.
- * Plik tekstowy musi znajdować się w folderze data w tym samym folderze,
- * co główny plik programu!
- *
- * @param filepath Nazwa pliku, z którego wczytywana jest tablica [string]
- */
-template <typename T>
-void Array<T>::readFromFile(string& filepath)
-{
-    string path = "../data/" + filepath;
-    fstream f;
-    T input;
-    int i = 0;
-    f.open(path);
-    if (f.is_open())
-    {
-        f >> input;
-        cout << "Rozmiar tablicy: " << input << endl;
-        while (f >> input)
-        {
-            this->push_back(input);
-            i++;
-        }
-        f.close();
-    }
-    else
-    {
-        cout << "Nie udało się otworzyć pliku ze ścieżki " << path << " \n";
-    }
-    cout << "Poprawnie wczytano strukturę ze ścieżki " << path << " \n";
-}
-
-/**
- * Funkcja zapełniająca kopiec liczbami z pliku tekstowego.
- * Do generowania liczb użyto funkcji pomocniczej generate_random_number()
- * z pliku simulation/generator.h
- *
- * @param size Rozmiar struktury [int]
- */
-template <typename T>
-void Array<T>::generate(int size)
-{
-    random_device rd;
-    mt19937 gen(rd());
-    if constexpr(is_integral_v<T>)
-    {
-        uniform_int_distribution<> distr(0 ,1000);
-        for (int i = 0; i < size; i++)
-        {
-            this->push_back((int)distr(gen));
-        }
-    }
-    else if constexpr(is_floating_point_v<T>)
-    {
-        uniform_real_distribution<> distr(0 ,1000);
-        for (int i = 0; i < size; i++)
-        {
-            this->push_back((float)distr(gen));
-        }
-    }
-    cout << "Poprawnie wygenerowano tablice\n";
-}
-
-
-/**
- * Operator dostępu
-*/
-template <typename T>
-T& Array<T>::operator[] (int i)
-{
-    return *(this->data + i);
-}
-
-/**
- * Funkcja do czyszczenia tablicy
-*/
-template <typename T>
-void Array<T>::clear()
-{
-    for (int i = 0; i < size; i++)
-    {
-        data[i] = 0;
-    }
-    size = 0;
-    maxSize = 10;
-}
-
-/*
-*   Destruktor klasy Array
-*/
-template <typename T>
-Array<T>::~Array()
-{
-    delete[] data;
-}
 
 /*
 *   Zdefiniowanie typów dla tablicy
