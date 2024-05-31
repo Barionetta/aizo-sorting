@@ -2,6 +2,7 @@
 build/
 build-mingw/
 .vscode/
+output/
 
 # Executables
 *.exe

@@ -2,7 +2,7 @@
  * Plik główny programu
  */
 #include <iostream>
-#include "menu/app.h"
+#include "core/app.h"
 
 int main(int, char **)
 {

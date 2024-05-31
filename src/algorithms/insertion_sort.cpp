@@ -13,7 +13,7 @@
  * @param array Tablica, którą należy posortować [Array<T>]
 */
 template <typename T>
-void insertion_sort(Array<T>& array)
+void insertionsort(Array<T>& array)
 {
     int i, j;
     T key;
@@ -37,5 +37,5 @@ void insertion_sort(Array<T>& array)
 /*
 *   Zdefiniowanie typów dla funkcji
 */
-template void insertion_sort(Array<int>& array);
-template void insertion_sort(Array<float>& array);
+template void insertionsort(Array<int>& array);
+template void insertionsort(Array<float>& array);

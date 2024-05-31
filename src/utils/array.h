@@ -39,6 +39,11 @@ public:
     // Funkcja dodająca nowy element na koniec istniejącej tablicy
     void push_back(const T& value);
 
+    // Funkcja zwracająca początek tablicy
+    T* begin();
+    // Funkcja zwracająca koniec tablicy
+    T* end();
+
 
 private:
     int size_;                      // Obecny rozmiar tablicy [int]

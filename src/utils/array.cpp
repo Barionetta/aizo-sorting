@@ -16,9 +16,7 @@ Array<T>::Array()
     : size_(0),
       max_size_(10),
       data_(std::make_unique<T[]>(max_size_))
-{
-    std::cout << "Poprawnie utworzono tablicę.\n";
-}
+{ }
 
 /**
  * Konstruktor kopiujący klasy Array
@@ -32,7 +30,6 @@ Array<T>::Array(const Array<T>& array)
       data_(std::make_unique<T[]>(array.max_size_))
 {
     std::copy_n(array.data_.get(), array.size_, data_.get());
-    std::cout << "Poprawnie utworzono kopię tablicy.\n";
 }
 
 /**
@@ -47,7 +44,6 @@ Array<T>::Array(Array<T>&& array)
       data_(nullptr)
 {
     *this = array;
-    std::cout << "Poprawnie przeniesiono tablicę.\n";
 }
 
 /**
@@ -129,9 +125,25 @@ void Array<T>::push_back(const T& value)
     }
     data_[size_] = value;
     size_++;
-    std::cout << "Poprawnie dodano element na końcu tablicy.\n";
 }
 
+/*
+* Funkcja zwracająca początek tablicy
+*/
+template <typename T>
+T* Array<T>::begin()
+{
+    return data_.get();
+}
+
+/*
+* Funkcja zwracająca koniec tablicy
+*/
+template <typename T>
+T* Array<T>::end()
+{
+    return &data_.get()[size_];
+}
 
 /*
 *   Zdefiniowanie typów dla tablicy

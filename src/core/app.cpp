@@ -22,7 +22,7 @@ App::App()
                    make_pair(4, Menu::Entry("Wygeneruj tablicę danych typu float losowo\n", [this](){ cout << "Podaj rozmiar tablicy: \n"; int size; cin >> size; this->demo_array_float_ = Others::generate_random_array<float>(size, 0, 1000); this->is_int_type_array_=false;})),
                    make_pair(5, Menu::Entry("Zakończ\n", [this](){ this->is_running_ = false; }))};
 
-    algorithms_menu_ = {make_pair(1, Menu::Entry("Posortuj tablicę algorytmem przez wstawianie\n", [this](){ if(this->is_int_type_array_) { perform_alogrithm(this->demo_array_int_, insertion_sort<int>); } else { perform_alogrithm(this->demo_array_float_, insertion_sort<float>); } })),
+    algorithms_menu_ = {make_pair(1, Menu::Entry("Posortuj tablicę algorytmem przez wstawianie\n", [this](){ if(this->is_int_type_array_) { perform_alogrithm(this->demo_array_int_, insertionsort<int>); } else { perform_alogrithm(this->demo_array_float_, insertionsort<float>); } })),
                         make_pair(2, Menu::Entry("Posortuj tablicę algorytmem przez kopcowanie\n", [this](){ if(this->is_int_type_array_) { perform_alogrithm(this->demo_array_int_, heapsort<int>); } else { perform_alogrithm(this->demo_array_float_, heapsort<float>); } })),
                         make_pair(3, Menu::Entry("Posortuj tablicę za pomocą metody Shella ze wzoru oryginalnego\n", [this](){ if(this->is_int_type_array_) { perform_alogrithm(this->demo_array_int_, shellsort<int>); } else { perform_alogrithm(this->demo_array_float_, shellsort<float>); } })),
                         make_pair(4, Menu::Entry("Posortuj tablicę za pomocą metody Shella ze wzoru Knutha\n", [this](){ if(this->is_int_type_array_) { perform_alogrithm(this->demo_array_int_, shellsort_knuth<int>); } else { perform_alogrithm(this->demo_array_float_, shellsort_knuth<float>); } })),
@@ -74,6 +74,7 @@ void App::set_state(unsigned int state)
 */
 void App::perform_mode_selection()
 {
+    cout << "Co chcesz zrobić?\n";
     Menu::getEntry(this->modes_menu_);
 }
 
@@ -105,11 +106,9 @@ void App::perform_algorithm_selection()
 template <typename T, typename F>
 void App::perform_alogrithm(T array, F sorting_function)
 {
-    cout << "Tablica przed sortowaniem: ";
     array.print();
     cout << "Sortuję...\n";
     sorting_function(array);
-    cout << "Tablica po sortowaniu: ";
     array.print();
 }
 

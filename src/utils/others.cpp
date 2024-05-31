@@ -4,7 +4,7 @@
 
 #include "others.h"
 
-// Stałe
+// Generator
 std::random_device rd;
 std::mt19937 gen(rd());
 
@@ -20,6 +20,18 @@ void Others::swap(T& num_1, T& num_2)
     T temp = num_1;
     num_1 = num_2;
     num_2 = temp;
+}
+
+/**
+ * Funkcja do sprawdzenia, czy pierwsza liczba jest większa
+ * 
+ * @param num_1 Pierwsza liczba [T]
+ * @param num_2 Druga liczba    [T]
+*/
+template <typename T>
+bool Others::is_greater(T& num_1, T& num_2)
+{
+    return (num_1 > num_2);
 }
 
 /**
@@ -41,6 +53,23 @@ T Others::generate_random_number(T down, T up)
         std::uniform_real_distribution<> distr(down ,up);
         return (float)distr(gen);
     }
+}
+
+/**
+ * Funkcja generująca tablicę liczb losowych, która ma rozmiar size.
+ * Liczby generowane są z zakresu od down do up, gdzie down < up .
+ *
+ * @param size Rozmiar struktury [int]
+ */
+template <typename T>
+Array<T> Others::generate_random_array(int size, T down, T up)
+{
+    Array<T> new_array;
+    for (int i = 0; i < size; i++)
+    {
+        new_array.push_back(generate_random_number<T>(down, up));
+    }
+    return new_array;
 }
 
 /**
@@ -79,31 +108,63 @@ Array<T> Others::read_array_from_file(std::string& filepath)
 }
 
 /**
- * Funkcja generująca tablicę liczb losowych, która ma rozmiar size.
- * Liczby generowane są z zakresu od down do up, gdzie down < up .
+ * Funkcja do zapisania wyników pomiarów do pliku .csv
  *
- * @param size Rozmiar struktury [int]
+ * @param is_int            Czy pomiary były na tablicy intów           [bool]
+ * @param algorithm_code    Kod algorytmu                               [unsigned int]
+ * @param size              Rozmiar tablicy                             [int]
+ * @param saved_times       Tablica z pomiarami, jakie należy zapisać   [double[]]
  */
-template <typename T>
-Array<T> Others::generate_random_array(int size, T down, T up)
+void Others::save_experiment_to_file(bool is_int, unsigned int algorithm_code, int size, double saved_times[])
 {
-    Array<T> new_array;
-    for (int i = 0; i < size; i++)
+    std::string path;
+    if(is_int) { path = "../output/int_array.csv"; }
+    else { path = "../output/float_array.csv"; }
+
+    std::string algorithm_name;
+    switch (algorithm_code)
     {
-        new_array.push_back(generate_random_number<T>(down, up));
+    case 1: algorithm_name = "insertion_sort"; break;
+    case 2: algorithm_name = "heap_sort"; break;
+    case 3: algorithm_name = "shell_sort"; break;
+    case 4: algorithm_name = "shell_sort_knuth"; break;
+    case 5: algorithm_name = "quick_sort_left"; break;
+    case 6: algorithm_name = "quick_sort_right";break;
+    case 7: algorithm_name = "quick_sort_center"; break;
+    case 8: algorithm_name = "quick_sort_random"; break;
+    default: break;
     }
-    std::cout << "Poprawnie wygenerowano tablice\n";
-    return new_array;
+
+    std::ofstream fout;
+    fout.open(path, std::ios_base::out | std::ios::app);
+    if (!fout.is_open())
+    {
+        std::cout << " Nie udało się otworzyć pliku\n";
+        return;
+    }
+    else
+    {
+        fout << algorithm_name << "," << size << ",random," << saved_times[0] << std::endl;
+        fout << algorithm_name << "," << size << ",1/3," << saved_times[1] << std::endl;
+        fout << algorithm_name << "," << size << ",2/3," << saved_times[2] << std::endl;
+        fout << algorithm_name << "," << size << ",ascending," << saved_times[3] << std::endl;
+        fout << algorithm_name << "," << size << ",descending," << saved_times[3] << std::endl;
+    }
+    std::cout << " Poprawnie zapisano dane do pliku\n";
+    fout.close();
 }
+
 
 /*
 *   Zdefiniowanie typów dla funkcji
 */
 template void Others::swap(int& num_1, int& num_2);
 template void Others::swap(float& num_1, float& num_2);
+template bool Others::is_greater(int& num_1, int& num_2);
+template bool Others::is_greater(float& num_1, float& num_2);
 template int Others::generate_random_number(int down, int up);
 template float Others::generate_random_number(float down, float up);
-template Array<int> Others::read_array_from_file(std::string& filepath);
-template Array<float> Others::read_array_from_file(std::string& filepath);
 template Array<int> Others::generate_random_array(int size, int down, int up);
 template Array<float> Others::generate_random_array(int size, float down, float up);
+template Array<int> Others::read_array_from_file(std::string& filepath);
+template Array<float> Others::read_array_from_file(std::string& filepath);

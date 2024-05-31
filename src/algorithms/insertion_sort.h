@@ -7,6 +7,6 @@
 #include "utils/array.h"
 
 // Funkcja do sortowania tablicy przez wstawianie
-template <typename T> void insertion_sort(Array<T>& array);
+template <typename T> void insertionsort(Array<T>& array);
 
 #endif

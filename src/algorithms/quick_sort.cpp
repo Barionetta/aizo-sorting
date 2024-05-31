@@ -14,13 +14,16 @@ template <typename T>
 int partition(Array<T>& array, int left, int right, int& pivot_type)
 {
     T pivot;
-    if (pivot_type == 1) { pivot = array[left]; }
-    else if (pivot_type == 2) { pivot = array[right]; }
-    else if (pivot_type == 3) { pivot = array[(left + right) / 2]; }
-    else if (pivot_type == 4) { pivot = array[Others::generate_random_number(left,right)]; }
+    switch (pivot_type)
+    {
+    case 1: pivot = array[left]; break;
+    case 2: pivot = array[right]; break;
+    case 3: pivot = array[(left + right) / 2]; break;
+    case 4: pivot = array[Others::generate_random_number(left,right)]; break;
+    default: pivot = array[(left + right) / 2]; break;
+    }
     int j = left;
     
-    //swap(pivot, array[right]);
     for (int i = left; i < right; i++)
     {
         if (array[i] < array[right])
